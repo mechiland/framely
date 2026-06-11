@@ -9,6 +9,31 @@ export default function App() {
   const [showNotification, setShowNotification] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const captureRawScreenshotCanvas = (): HTMLCanvasElement | null => {
+    const sourceImg = containerRef.current?.querySelector("img")
+    if (
+      !sourceImg ||
+      sourceImg.naturalWidth <= 0 ||
+      sourceImg.naturalHeight <= 0
+    ) {
+      return null
+    }
+
+    const canvas = document.createElement("canvas")
+    canvas.width = sourceImg.naturalWidth
+    canvas.height = sourceImg.naturalHeight
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return null
+    ctx.drawImage(
+      sourceImg,
+      0,
+      0,
+      sourceImg.naturalWidth,
+      sourceImg.naturalHeight
+    )
+    return canvas
+  }
+
   useEffect(() => {
     // get screenshot data from chrome.storage.local (set by background)
     chrome.storage.local.get("framely-screenshot", (result) => {
@@ -25,17 +50,19 @@ export default function App() {
     if (!screenshot) return
 
     try {
-      // Use html2canvas to capture the container with frame and background
-      const canvas = await html2canvas(
-        containerRef.current?.parentElement || document.body,
-        {
-          allowTaint: true,
-          useCORS: true,
-          logging: false,
-          scale: 2, // Higher quality
-          backgroundColor: null // Allow background to show through
-        }
-      )
+      const canvas = showFrame
+        ? await html2canvas(
+            containerRef.current?.parentElement || document.body,
+            {
+              allowTaint: true,
+              useCORS: true,
+              logging: false,
+              scale: 2, // Higher quality
+              backgroundColor: null // Allow background to show through
+            }
+          )
+        : captureRawScreenshotCanvas()
+      if (!canvas) return
 
       // Get image data from canvas
       const imgData = canvas.toDataURL("image/png")
@@ -56,17 +83,19 @@ export default function App() {
     if (!containerRef.current) return
 
     try {
-      // Use html2canvas to capture the container with frame and background
-      const canvas = await html2canvas(
-        containerRef.current?.parentElement || document.body,
-        {
-          allowTaint: true,
-          useCORS: true,
-          logging: false,
-          scale: 2, // Higher quality
-          backgroundColor: null // Allow background to show through
-        }
-      )
+      const canvas = showFrame
+        ? await html2canvas(
+            containerRef.current?.parentElement || document.body,
+            {
+              allowTaint: true,
+              useCORS: true,
+              logging: false,
+              scale: 2, // Higher quality
+              backgroundColor: null // Allow background to show through
+            }
+          )
+        : captureRawScreenshotCanvas()
+      if (!canvas) return
 
       // Get image data from canvas
       const imgData = canvas.toDataURL("image/png")
@@ -103,6 +132,15 @@ export default function App() {
           </span>
         </div>
         <div className="flex items-center gap-4">
+          <label className="flex cursor-pointer items-center gap-2 rounded bg-gray-100 px-3 py-2 text-sm text-gray-700 hover:bg-gray-200">
+            <input
+              type="checkbox"
+              className="h-4 w-4 accent-blue-600"
+              checked={showFrame}
+              onChange={toggleFrame}
+            />
+            <span>Frame</span>
+          </label>
           <button
             className="cursor-pointer rounded border-none bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
             onClick={copyToClipboard}>
@@ -169,7 +207,7 @@ export default function App() {
               <img
                 src={screenshot}
                 alt="page screenshot"
-                className="block h-auto max-w-full rounded-lg bg-white shadow-[0_10px_25px_rgba(0,0,0,0.15)]"
+                className="block h-auto max-w-full bg-white"
               />
             )}
           </div>

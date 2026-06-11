@@ -1,6 +1,14 @@
 import html2canvas from "html2canvas"
 import { useEffect, useRef, useState } from "react"
 
+import {
+  FRAME_PADDING,
+  getCaptureExportLayout,
+  getScaledPreviewLayout,
+  getToolbarBackgroundPickerState,
+  shouldShowBackgroundPicker
+} from "./captureLayout"
+
 interface OverlayProps {
   screenshotUrl: string
   onClose: () => void
@@ -96,7 +104,7 @@ const BACKGROUNDS: BackgroundPreset[] = [
 const DEFAULT_BG = BACKGROUNDS[0]
 
 export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
-  const [showFrame] = useState(true)
+  const [showFrame, setShowFrame] = useState(true)
   const [showNotification, setShowNotification] = useState(false)
   const [selectedBg, setSelectedBg] = useState<BackgroundPreset>(DEFAULT_BG)
   const [pickerOpen, setPickerOpen] = useState(false)
@@ -109,22 +117,28 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
   const captureRef = useRef<HTMLDivElement>(null)
   const areaRef = useRef<HTMLDivElement>(null)
 
-  // Padding (px) around the framed image inside the gradient box.
-  const FRAME_PADDING = 32
-
   // Compute the largest frame size that fits within the available area
   // (after subtracting the gradient box padding) while preserving aspect.
-  let frameW = 0
-  let frameH = 0
-  if (imgSize && areaSize) {
-    const totalNaturalH = imgSize.h + (showFrame ? (imgSize.w * 36) / 1024 : 0)
-    const ratio = imgSize.w / totalNaturalH // width / height
-    const availW = Math.max(0, areaSize.w - FRAME_PADDING * 2)
-    const availH = Math.max(0, areaSize.h - FRAME_PADDING * 2)
-    const widthByHeight = availH * ratio
-    frameW = Math.min(availW, widthByHeight)
-    frameH = frameW / ratio
-  }
+  const previewLayout =
+    imgSize && areaSize
+      ? getScaledPreviewLayout({
+          areaHeight: areaSize.h,
+          areaWidth: areaSize.w,
+          imageHeight: imgSize.h,
+          imageWidth: imgSize.w,
+          showFrame
+        })
+      : null
+  const frameW = previewLayout?.frameWidth ?? 0
+  const frameH = previewLayout?.frameHeight ?? 0
+  const captureW = previewLayout?.captureWidth ?? 0
+  const captureH = previewLayout?.captureHeight ?? 0
+  const screenshotW = previewLayout?.screenshotWidth ?? 0
+  const screenshotH = previewLayout?.screenshotHeight ?? 0
+  const capturePadding =
+    previewLayout?.padding ?? (showFrame ? FRAME_PADDING : 0)
+  const chromeBarHeight = previewLayout?.chromeHeight ?? 0
+  const backgroundPickerState = getToolbarBackgroundPickerState(showFrame)
 
   // Observe the available area inside captureRef (excluding its p-8 padding
   // is automatic because we measure the inner area element directly).
@@ -157,6 +171,10 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
 
   // close picker on outside click
   useEffect(() => {
+    if (!showFrame) setPickerOpen(false)
+  }, [showFrame])
+
+  useEffect(() => {
     if (!pickerOpen) return
     const handleDown = (e: MouseEvent) => {
       // We're inside a Shadow DOM (content script), so window-level events
@@ -172,11 +190,39 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
     return () => window.removeEventListener("mousedown", handleDown, true)
   }, [pickerOpen])
 
+  const captureRawScreenshotCanvas = (): HTMLCanvasElement | null => {
+    const source = captureRef.current
+    const sourceImg = source?.querySelector("img")
+    if (
+      !sourceImg ||
+      sourceImg.naturalWidth <= 0 ||
+      sourceImg.naturalHeight <= 0
+    ) {
+      return null
+    }
+
+    const canvas = document.createElement("canvas")
+    canvas.width = sourceImg.naturalWidth
+    canvas.height = sourceImg.naturalHeight
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return null
+    ctx.drawImage(
+      sourceImg,
+      0,
+      0,
+      sourceImg.naturalWidth,
+      sourceImg.naturalHeight
+    )
+    return canvas
+  }
+
   // Capture the screenshot-container with gradient background.
   // html2canvas does not traverse Shadow DOM, so we temporarily clone the
   // node into the light DOM along with the shadow root's <style> tags,
   // capture it, then remove it.
   const captureCanvas = async (): Promise<HTMLCanvasElement | null> => {
+    if (!showFrame) return captureRawScreenshotCanvas()
+
     const source = captureRef.current
     if (!source) return null
 
@@ -198,11 +244,13 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
     const sourceImg = source.querySelector("img")
     const naturalWidth = sourceImg?.naturalWidth ?? 0
     // Displayed frame width = clone root contentBox width = offsetWidth - 64.
-    const displayedFrameWidth = Math.max(1, source.offsetWidth - 64)
-    const scale = naturalWidth > 0 ? naturalWidth / displayedFrameWidth : 1
-    const capturePadding = Math.round(32 * scale)
-    const captureWidth =
-      naturalWidth > 0 ? naturalWidth + capturePadding * 2 : source.offsetWidth
+    const exportLayout = getCaptureExportLayout({
+      naturalWidth,
+      sourceOffsetWidth: source.offsetWidth,
+      showFrame
+    })
+    const capturePadding = exportLayout.padding
+    const captureWidth = exportLayout.width
 
     // Override sizing on the cloned root so it lays out at full natural size.
     clone.style.width = `${captureWidth}px`
@@ -297,73 +345,76 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
           className="flex min-h-0 w-full max-h-full max-w-full flex-1 items-center justify-center overflow-hidden">
           <div
             ref={captureRef}
-            className="flex items-center justify-center overflow-hidden rounded-lg"
+            className={
+              showFrame
+                ? "flex items-center justify-center overflow-hidden rounded-lg transition-[width,height,padding,background-image,border-radius] duration-300 ease-out"
+                : "flex items-center justify-center overflow-hidden rounded-none transition-[width,height,padding,background-image,border-radius] duration-300 ease-out"
+            }
             style={{
-              backgroundImage: selectedBg.css,
-              padding: `${FRAME_PADDING}px`,
+              backgroundImage: showFrame ? selectedBg.css : undefined,
+              padding: `${capturePadding}px`,
               ...(frameW > 0
                 ? {
-                    width: `${frameW + FRAME_PADDING * 2}px`,
-                    height: `${frameH + FRAME_PADDING * 2}px`
+                    width: `${captureW}px`,
+                    height: `${captureH}px`
                   }
                 : { visibility: "hidden" })
             }}>
             <div
               className={
                 showFrame
-                  ? "relative z-1 flex flex-col overflow-hidden rounded-lg bg-white"
-                  : "relative z-1 flex flex-col overflow-hidden bg-white"
+                  ? "relative z-1 flex flex-col overflow-hidden rounded-lg bg-white shadow-[0_10px_25px_rgba(0,0,0,0.15)] transition-[width,height,border-radius,box-shadow] duration-300 ease-out"
+                  : "relative z-1 flex flex-col overflow-hidden rounded-none bg-white shadow-none transition-[width,height,border-radius,box-shadow] duration-300 ease-out"
               }
               style={
                 frameW > 0
                   ? { width: `${frameW}px`, height: `${frameH}px` }
                   : undefined
               }>
-              {showFrame ? (
-                <>
-                  <svg
-                    className="block h-auto w-full shrink-0"
-                    viewBox="0 0 1024 36"
-                    preserveAspectRatio="xMidYMid meet"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M0 8C0 3.58172 3.58172 0 8 0H1016C1020.42 0 1024 3.58172 1024 8V36H0V8Z"
-                      fill="#F2F2F2"
-                    />
-                    <circle cx="24" cy="18" r="6" fill="#FF5F56" />
-                    <circle cx="46" cy="18" r="6" fill="#FFBD2E" />
-                    <circle cx="68" cy="18" r="6" fill="#27C93F" />
-                    <rect
-                      x="162"
-                      y="8"
-                      width="700"
-                      height="20"
-                      rx="10"
-                      fill="white"
-                    />
-                  </svg>
-                  <img
-                    src={screenshotUrl}
-                    alt="page screenshot"
-                    className="block w-full min-h-0 flex-1 bg-white"
-                    onLoad={(e) => {
-                      const t = e.currentTarget
-                      setImgSize({ w: t.naturalWidth, h: t.naturalHeight })
-                    }}
+              <div
+                className="shrink-0 overflow-hidden transition-[height,opacity] duration-300 ease-out"
+                style={{
+                  height: `${chromeBarHeight}px`,
+                  opacity: showFrame ? 1 : 0
+                }}
+                aria-hidden={!showFrame}>
+                <svg
+                  className="block h-full w-full"
+                  viewBox="0 0 1024 36"
+                  preserveAspectRatio="none"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M0 8C0 3.58172 3.58172 0 8 0H1016C1020.42 0 1024 3.58172 1024 8V36H0V8Z"
+                    fill="#F2F2F2"
                   />
-                </>
-              ) : (
-                <img
-                  src={screenshotUrl}
-                  alt="page screenshot"
-                  className="block h-full w-full rounded-lg bg-white shadow-[0_10px_25px_rgba(0,0,0,0.15)]"
-                  onLoad={(e) => {
-                    const t = e.currentTarget
-                    setImgSize({ w: t.naturalWidth, h: t.naturalHeight })
-                  }}
-                />
-              )}
+                  <circle cx="24" cy="18" r="6" fill="#FF5F56" />
+                  <circle cx="46" cy="18" r="6" fill="#FFBD2E" />
+                  <circle cx="68" cy="18" r="6" fill="#27C93F" />
+                  <rect
+                    x="162"
+                    y="8"
+                    width="700"
+                    height="20"
+                    rx="10"
+                    fill="white"
+                  />
+                </svg>
+              </div>
+              <img
+                src={screenshotUrl}
+                alt="page screenshot"
+                className="block min-h-0 bg-white transition-[width,height] duration-300 ease-out"
+                style={
+                  screenshotW > 0
+                    ? { width: `${screenshotW}px`, height: `${screenshotH}px` }
+                    : undefined
+                }
+                onLoad={(e) => {
+                  const t = e.currentTarget
+                  setImgSize({ w: t.naturalWidth, h: t.naturalHeight })
+                }}
+              />
             </div>
           </div>
         </div>
@@ -376,6 +427,36 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
       </div>
 
       <div className="relative z-10 mt-3 shrink-0 rounded-xl border border-white/10 bg-white/5 p-2 px-4">
+        {shouldShowBackgroundPicker(showFrame) && pickerOpen && (
+          <div
+            ref={pickerRef}
+            className="absolute bottom-full left-1/2 z-[2147483647] mb-3 -translate-x-1/2 rounded-xl border border-white/10 bg-neutral-900/95 p-3 shadow-[0_10px_25px_rgba(0,0,0,0.35)] backdrop-blur">
+            <div className="grid grid-cols-5 gap-2">
+              {BACKGROUNDS.map((bg) => {
+                const active = bg.id === selectedBg.id
+                return (
+                  <button
+                    key={bg.id}
+                    type="button"
+                    title={bg.name}
+                    aria-label={bg.name}
+                    onClick={() => {
+                      setSelectedBg(bg)
+                      setPickerOpen(false)
+                    }}
+                    className={
+                      "h-9 w-9 cursor-pointer rounded-full border border-white/20 transition hover:scale-105 " +
+                      (active
+                        ? "ring-2 ring-white ring-offset-2 ring-offset-neutral-900"
+                        : "")
+                    }
+                    style={{ backgroundImage: bg.css }}
+                  />
+                )
+              })}
+            </div>
+          </div>
+        )}
         <div className="flex items-center justify-between gap-4">
           {/* <div className="flex flex-col items-start">
             <a
@@ -387,50 +468,40 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
             </a>
           </div> */}
           <div className="flex items-center gap-3">
-            <div className="relative z-10">
-              <button
-                ref={pickerButtonRef}
-                className="flex h-8 cursor-pointer items-center gap-2 rounded border-none bg-white/5 px-3 text-sm text-white hover:bg-white/10"
-                onClick={() => setPickerOpen((v) => !v)}
-                aria-label="Change background"
-                aria-expanded={pickerOpen}>
-                <span
-                  className="block h-4 w-4 rounded-full border border-white/30"
-                  style={{ backgroundImage: selectedBg.css }}
-                />
-                <span>Background</span>
-              </button>
-              {pickerOpen && (
-                <div
-                  ref={pickerRef}
-                  className="absolute bottom-full right-0 z-50 mb-2 rounded-xl border border-white/10 bg-neutral-900/95 p-3 shadow-[0_10px_25px_rgba(0,0,0,0.35)] backdrop-blur">
-                  <div className="grid grid-cols-5 gap-2">
-                    {BACKGROUNDS.map((bg) => {
-                      const active = bg.id === selectedBg.id
-                      return (
-                        <button
-                          key={bg.id}
-                          type="button"
-                          title={bg.name}
-                          aria-label={bg.name}
-                          onClick={() => {
-                            setSelectedBg(bg)
-                            setPickerOpen(false)
-                          }}
-                          className={
-                            "h-9 w-9 cursor-pointer rounded-full border border-white/20 transition hover:scale-105 " +
-                            (active
-                              ? "ring-2 ring-white ring-offset-2 ring-offset-neutral-900"
-                              : "")
-                          }
-                          style={{ backgroundImage: bg.css }}
-                        />
-                      )
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
+            <label className="flex h-8 cursor-pointer items-center gap-2 rounded bg-white/5 px-3 text-sm text-white hover:bg-white/10">
+              <input
+                type="checkbox"
+                className="h-4 w-4 accent-white"
+                checked={showFrame}
+                onChange={(e) => setShowFrame(e.currentTarget.checked)}
+              />
+              <span>Frame</span>
+            </label>
+            {backgroundPickerState.reserveSpace && (
+              <div
+                className={
+                  "relative z-10 " +
+                  (backgroundPickerState.visible
+                    ? ""
+                    : "invisible pointer-events-none")
+                }>
+                <button
+                  ref={pickerButtonRef}
+                  className="flex h-8 cursor-pointer items-center gap-2 rounded border-none bg-white/5 px-3 text-sm text-white hover:bg-white/10"
+                  onClick={() => setPickerOpen((v) => !v)}
+                  aria-label="Change background"
+                  aria-expanded={pickerOpen}
+                  aria-hidden={!backgroundPickerState.visible}
+                  disabled={!backgroundPickerState.visible}
+                  tabIndex={backgroundPickerState.visible ? 0 : -1}>
+                  <span
+                    className="block h-4 w-4 rounded-full border border-white/30"
+                    style={{ backgroundImage: selectedBg.css }}
+                  />
+                  <span>Background</span>
+                </button>
+              </div>
+            )}
             <button
               className="cursor-pointer rounded border-none bg-white/5 px-4 h-8 text-sm text-white hover:bg-white/10"
               onClick={copyToClipboard}>
