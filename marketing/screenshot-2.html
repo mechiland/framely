@@ -1,0 +1,53 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_shared.css">
+<style>
+body { width: 1280px; height: 800px; background: #0b0d12; flex-direction: column; padding: 56px 80px; justify-content: flex-start; color: #fff; }
+.headline { font-size: 56px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; max-width: 1100px; text-align: center; align-self: center; }
+.headline em { font-style: normal; background: linear-gradient(135deg, #86efac, #c084fc); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sub { margin-top: 14px; font-size: 20px; color: #94a3b8; max-width: 720px; line-height: 1.4; font-weight: 500; text-align: center; align-self: center; }
+.grid { margin-top: 44px; align-self: center; display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+.card { padding: 24px; border-radius: 16px; box-shadow: 0 16px 36px rgba(0,0,0,0.4); }
+.card .frame { width: 480px; height: 220px; border-radius: 9px; }
+.mini-mock { padding: 22px 26px; height: 100%; }
+.mini-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.mini-brand { display: flex; align-items: center; gap: 8px; }
+.mini-mark { width: 18px; height: 18px; border-radius: 5px; }
+.mini-name { font-weight: 700; font-size: 11px; color: #0f172a; }
+.mini-menu { display: flex; gap: 14px; font-size: 9px; color: #64748b; font-weight: 500; }
+.mini-cta { background: #0f172a; color: #fff; padding: 4px 10px; border-radius: 5px; font-size: 9px; font-weight: 600; }
+.mini-h1 { font-size: 22px; font-weight: 800; line-height: 1.05; letter-spacing: -0.5px; color: #0f172a; }
+.mini-sub { margin-top: 6px; font-size: 10px; color: #475569; line-height: 1.4; max-width: 320px; }
+.mini-actions { margin-top: 12px; display: flex; gap: 6px; }
+.mini-btn-p { background: #0f172a; color: #fff; padding: 5px 10px; border-radius: 5px; font-size: 9px; font-weight: 600; }
+.mini-btn-s { background: #f1f5f9; color: #0f172a; padding: 5px 10px; border-radius: 5px; font-size: 9px; font-weight: 600; }
+.logo-wrap { position: absolute; top: 32px; left: 80px; display: flex; align-items: center; gap: 10px; }
+.logo-wrap img { width: 36px; height: 36px; border-radius: 9px; }
+.logo-wrap .n { font-weight: 800; font-size: 19px; color: #fff; letter-spacing: -0.5px; }
+.acme-i { background: linear-gradient(135deg, #6366f1, #a855f7); }
+.acme-r { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
+.acme-o { background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+.acme-s { background: linear-gradient(135deg, #f6d365, #fda085); }
+</style></head>
+<body>
+  <div class="logo-wrap"><img src="icon.png"><span class="n">Framely</span></div>
+  <div class="headline">15 stunning <em>gradient presets</em>.</div>
+  <div class="sub">Pick the vibe — from soft pastels to deep nights. Every palette is hand-tuned.</div>
+  <div class="grid">
+    <div class="card bg-mint-lavender"><div class="frame"><div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><div class="url"></div></div>
+      <div class="mini-mock"><div class="mini-nav"><div class="mini-brand"><div class="mini-mark acme-i"></div><div class="mini-name">Linear</div></div><div class="mini-menu"><span>Method</span><span>Pricing</span><span>Customers</span></div><div class="mini-cta">Sign up</div></div>
+      <div class="mini-h1">Issue tracking, evolved.</div><div class="mini-sub">Modern issues, fast and built for high-performance teams.</div>
+      <div class="mini-actions"><div class="mini-btn-p">Get started</div><div class="mini-btn-s">Read docs →</div></div></div></div></div>
+    <div class="card bg-rose"><div class="frame"><div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><div class="url"></div></div>
+      <div class="mini-mock"><div class="mini-nav"><div class="mini-brand"><div class="mini-mark acme-r"></div><div class="mini-name">Bloom</div></div><div class="mini-menu"><span>Shop</span><span>Story</span><span>Journal</span></div><div class="mini-cta">Visit</div></div>
+      <div class="mini-h1">Florals, made fresh daily.</div><div class="mini-sub">Sustainable bouquets delivered straight from local farms to your door.</div>
+      <div class="mini-actions"><div class="mini-btn-p">Subscribe</div><div class="mini-btn-s">Browse →</div></div></div></div></div>
+    <div class="card bg-ocean"><div class="frame"><div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><div class="url"></div></div>
+      <div class="mini-mock"><div class="mini-nav"><div class="mini-brand"><div class="mini-mark acme-o"></div><div class="mini-name">Wavelength</div></div><div class="mini-menu"><span>Product</span><span>Pricing</span><span>Blog</span></div><div class="mini-cta">Try free</div></div>
+      <div class="mini-h1">Analytics for builders.</div><div class="mini-sub">Real-time dashboards that actually answer the question you're asking.</div>
+      <div class="mini-actions"><div class="mini-btn-p">Start free</div><div class="mini-btn-s">Demo →</div></div></div></div></div>
+    <div class="card bg-deep-night"><div class="frame"><div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><div class="url"></div></div>
+      <div class="mini-mock"><div class="mini-nav"><div class="mini-brand"><div class="mini-mark acme-s"></div><div class="mini-name">Forge</div></div><div class="mini-menu"><span>Editor</span><span>Cloud</span><span>Pricing</span></div><div class="mini-cta">Download</div></div>
+      <div class="mini-h1">The IDE that stays out of your way.</div><div class="mini-sub">Lightweight, AI-native, and ridiculously fast on every platform.</div>
+      <div class="mini-actions"><div class="mini-btn-p">Get Forge</div><div class="mini-btn-s">Changelog →</div></div></div></div></div>
+  </div>
+</body></html>

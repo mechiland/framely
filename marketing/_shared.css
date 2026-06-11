@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+/* gradients */
+.bg-mint-lavender { background: linear-gradient(135deg, #86efac, #c084fc); }
+.bg-sunset { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+.bg-peach { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+.bg-rose { background: linear-gradient(135deg, #ff758c, #ff7eb3); }
+.bg-lavender-pink { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+.bg-indigo-violet { background: linear-gradient(135deg, #6366f1, #a855f7); }
+.bg-ocean { background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+.bg-teal-sky { background: linear-gradient(135deg, #0ea5e9, #22d3ee); }
+.bg-mint-sky { background: linear-gradient(135deg, #a1ffce, #faffd1); }
+.bg-forest { background: linear-gradient(135deg, #134e5e, #71b280); }
+.bg-sunrise { background: linear-gradient(135deg, #f6d365, #fda085); }
+.bg-deep-night { background: linear-gradient(135deg, #0f2027, #2c5364); }
+
+/* mock browser frame */
+.frame { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.18), 0 8px 18px rgba(0,0,0,0.12); }
+.frame .chrome { height: 36px; background: #F2F2F2; display: flex; align-items: center; padding: 0 18px; gap: 8px; position: relative; }
+.frame .dot { width: 12px; height: 12px; border-radius: 50%; }
+.frame .dot.r { background: #FF5F56; }
+.frame .dot.y { background: #FFBD2E; }
+.frame .dot.g { background: #27C93F; }
+.frame .url { position: absolute; left: 162px; right: 162px; top: 8px; bottom: 8px; background: #fff; border-radius: 10px; }
+
+/* generic mock content inside the frame */
+.mock { padding: 40px; height: 100%; }
+.mock-row { height: 14px; border-radius: 6px; background: #eef0f3; margin-bottom: 12px; }
+.mock-row.s { width: 35%; }
+.mock-row.m { width: 60%; }
+.mock-row.l { width: 80%; }
+.mock-row.xl { width: 100%; }

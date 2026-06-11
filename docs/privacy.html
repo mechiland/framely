@@ -3,136 +3,109 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Privacy Policy - Framely</title>
+    <title>Privacy — Framely</title>
+    <link rel="icon" href="icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet" />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        line-height: 1.65;
-        color: #333;
-        background: #f8f9fa;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: #faf8f3; color: #161513;
+        line-height: 1.65; font-size: 17px;
       }
-      .container {
-        max-width: 760px;
-        margin: 0 auto;
-        padding: 60px 24px 80px;
+      body::before {
+        content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+        mix-blend-mode: multiply; opacity: 0.7;
       }
-      a {
-        color: #1a73e8;
-      }
+      a { color: inherit; text-decoration: underline; text-decoration-color: rgba(0,0,0,0.25); text-underline-offset: 3px; }
+      a:hover { text-decoration-color: rgba(0,0,0,0.7); }
+      .container { max-width: 720px; margin: 0 auto; padding: 28px 28px 96px; position: relative; z-index: 2; }
+      header { padding: 0 0 64px; display: flex; justify-content: space-between; align-items: center; }
+      .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+      .logo img { width: 28px; height: 28px; border-radius: 7px; }
+      .logo span { font-weight: 700; font-size: 17px; letter-spacing: -0.3px; }
+      .back { font-size: 14px; opacity: 0.7; text-decoration: none; }
+      .back:hover { opacity: 1; }
       h1 {
-        font-size: 36px;
-        color: #1a73e8;
-        margin-bottom: 8px;
+        font-family: 'Instrument Serif', Georgia, serif;
+        font-weight: 400; font-size: 64px; line-height: 0.95;
+        letter-spacing: -1.5px; margin-bottom: 12px;
       }
+      h1 em { font-style: italic; color: #6e6862; }
       .updated {
-        color: #5f6368;
-        font-size: 14px;
-        margin-bottom: 32px;
+        font-family: 'Instrument Serif', serif; font-style: italic;
+        color: #6e6862; font-size: 17px; margin-bottom: 36px;
       }
       h2 {
-        font-size: 20px;
-        margin: 28px 0 10px;
-        color: #202124;
+        font-family: 'Instrument Serif', serif; font-style: italic;
+        font-weight: 400; font-size: 28px;
+        margin: 40px 0 14px; color: #161513; letter-spacing: -0.5px;
       }
-      p,
-      li {
-        color: #3c4043;
-        margin-bottom: 10px;
+      p { margin-bottom: 16px; color: #2a2825; max-width: 620px; }
+      ul { padding-left: 22px; margin-bottom: 16px; }
+      li { margin-bottom: 8px; color: #2a2825; }
+      li strong { font-weight: 600; }
+      code {
+        font-family: ui-monospace, SF Mono, monospace; font-size: 14px;
+        background: rgba(22,21,19,0.06); padding: 2px 6px; border-radius: 4px;
       }
-      ul {
-        padding-left: 22px;
+      .lede {
+        font-family: 'Instrument Serif', serif; font-size: 22px; line-height: 1.45;
+        color: #2a2825; margin-bottom: 36px; font-style: italic;
       }
-      .back {
-        display: inline-block;
-        margin-bottom: 24px;
-        font-size: 14px;
-        text-decoration: none;
+      footer {
+        margin-top: 80px; padding-top: 32px; border-top: 1px solid #e7e2d6;
+        font-size: 14px; color: #6e6862;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <a href="/" class="back">&larr; Back to Framely</a>
-      <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: April 30, 2026</p>
+      <header>
+        <a class="logo" href="/"><img src="icon.png" alt="" /><span>Framely</span></a>
+        <a class="back" href="/">← Back</a>
+      </header>
 
-      <p>
-        Framely ("the extension") is a Chrome extension that captures the
-        currently visible browser tab and wraps the screenshot in a stylish
-        browser frame so you can share polished mockups. This page explains
-        what data Framely handles and how.
+      <h1>Privacy, <em>plainly.</em></h1>
+      <div class="updated">Last updated · April 30, 2026</div>
+
+      <p class="lede">
+        The short version: Framely runs on your machine. Nothing leaves it. There's no analytics, no tracking, no sign-in, no upload. Captured screenshots stay where you put them.
       </p>
 
-      <h2>Summary</h2>
+      <h2>What it accesses</h2>
       <ul>
-        <li>Framely runs entirely on your device.</li>
-        <li>No personal data, browsing history, or screenshots are sent to
-          any remote server.</li>
-        <li>No analytics, tracking, advertising, or third-party SDKs are
-          included.</li>
-        <li>No accounts, sign-in, or payments.</li>
+        <li><strong>The visible area of the active tab</strong> — only when you click the toolbar icon. Pixels are captured via Chrome's <code>tabs.captureVisibleTab</code> API and used to render the framed mockup in-page.</li>
+        <li><strong>Local browser storage</strong> — used as a temporary handoff (key <code>framely-screenshot</code>) when the active page can't host the in-page overlay (for example <code>chrome://</code> pages). The entry is overwritten on the next capture.</li>
+        <li><strong>Host access on all sites</strong> — required so the capture and overlay can work on whichever page you invoke Framely from. Framely does not read page contents beyond rendering its own overlay.</li>
       </ul>
 
-      <h2>What Framely accesses</h2>
+      <h2>What it doesn't do</h2>
       <ul>
-        <li>
-          <strong>The visible area of the active tab</strong> &mdash; only when
-          you click the Framely toolbar icon. The pixels are captured via
-          Chrome's <code>tabs.captureVisibleTab</code> API and used to render
-          the framed mockup.
-        </li>
-        <li>
-          <strong>Local browser storage</strong> &mdash; used as a temporary
-          handoff (key <code>framely-screenshot</code>) when the active page
-          cannot host the in-page overlay (for example
-          <code>chrome://</code> pages) and Framely opens a viewer tab
-          instead. This entry is overwritten on the next capture.
-        </li>
-        <li>
-          <strong>Host access on all sites</strong> &mdash; required so that
-          the screenshot capture and overlay can work on any page you
-          choose to invoke Framely from. Framely does not read page contents
-          beyond rendering its own overlay UI.
-        </li>
+        <li>It doesn't transmit, sell, or share any data with anyone.</li>
+        <li>It doesn't load remote code. All scripts are bundled at publish time.</li>
+        <li>It doesn't include analytics SDKs, error reporters, or third-party trackers.</li>
+        <li>It doesn't ask you to sign in. There is no account.</li>
       </ul>
 
-      <h2>Data sharing</h2>
-      <p>
-        Framely does not transmit, sell, share, or otherwise disclose any
-        data to third parties. Captured screenshots stay on your device
-        unless you explicitly export or share them yourself.
-      </p>
+      <h2>Children</h2>
+      <p>Framely isn't directed at children under 13 and doesn't knowingly collect personal information from anyone.</p>
 
-      <h2>Remote code</h2>
-      <p>
-        Framely does not load or execute any remote code. All scripts are
-        bundled with the extension at publish time.
-      </p>
-
-      <h2>Children's privacy</h2>
-      <p>
-        Framely is not directed at children under 13 and does not knowingly
-        collect personal information from anyone.
-      </p>
-
-      <h2>Changes to this policy</h2>
-      <p>
-        If this policy changes, the updated version will be published at
-        this same URL with a new "Last updated" date.
-      </p>
+      <h2>Changes</h2>
+      <p>If this policy changes, the updated version will live at this same URL with a new "Last updated" date.</p>
 
       <h2>Contact</h2>
-      <p>
-        Questions or requests? Open an issue at
-        <a href="https://github.com/flanker/framely/issues">the project
-          repository</a>.
-      </p>
+      <p>Questions or requests — open an issue at <a href="https://github.com/flanker/framely/issues" target="_blank" rel="noreferrer">github.com/flanker/framely</a>.</p>
+
+      <footer>
+        © 2026 Framely · <a href="/">Home</a> · <a href="https://github.com/flanker/framely" target="_blank" rel="noreferrer">GitHub</a>
+      </footer>
     </div>
   </body>
 </html>

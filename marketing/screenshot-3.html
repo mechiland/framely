@@ -1,0 +1,85 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_shared.css">
+<style>
+body { width: 1280px; height: 800px; background: linear-gradient(135deg, #f8fafc 0%, #eef1f7 100%); flex-direction: column; padding: 56px 80px; justify-content: flex-start; }
+.headline { font-size: 56px; font-weight: 800; letter-spacing: -1.5px; color: #0f172a; line-height: 1.05; max-width: 1100px; text-align: center; align-self: center; }
+.headline em { font-style: normal; background: linear-gradient(135deg, #86efac, #c084fc); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sub { margin-top: 14px; font-size: 20px; color: #475569; max-width: 720px; line-height: 1.4; font-weight: 500; text-align: center; align-self: center; }
+.steps { margin-top: 60px; display: flex; gap: 28px; align-self: center; align-items: stretch; }
+.step { width: 348px; background: #fff; border-radius: 18px; padding: 28px 26px; box-shadow: 0 14px 36px rgba(15,23,42,0.08); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.step-num { width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, #86efac, #c084fc); color: #0f172a; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 14px rgba(168,85,247,0.25); }
+.step-title { margin-top: 16px; font-size: 22px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+.step-sub { margin-top: 6px; font-size: 14px; color: #64748b; line-height: 1.45; max-width: 280px; }
+.step-vis { margin-top: 22px; height: 200px; width: 100%; border-radius: 12px; position: relative; overflow: hidden; }
+.vis-1 { background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%); }
+.vis-1 .browser-bar { position: absolute; top: 18px; left: 18px; right: 18px; height: 30px; background: #fff; border-radius: 8px; display: flex; align-items: center; padding: 0 10px; gap: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.vis-1 .browser-bar .pill { flex: 1; height: 14px; background: #f1f5f9; border-radius: 7px; }
+.vis-1 .icon-btn { width: 64px; height: 64px; border-radius: 16px; background: #4f9efb; box-shadow: 0 12px 24px rgba(79,158,251,0.45); display: flex; align-items: center; justify-content: center; position: absolute; top: 70px; left: 50%; transform: translateX(-50%); }
+.vis-1 .icon-btn img { width: 44px; height: 44px; border-radius: 11px; }
+.vis-1 .cursor { position: absolute; top: 110px; left: 50%; transform: translate(-2px, 0); width: 24px; height: 24px; }
+.vis-1 .cursor svg { width: 100%; height: 100%; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4)); }
+.vis-1 .ripple { position: absolute; top: 56px; left: 50%; transform: translateX(-50%); width: 92px; height: 92px; border-radius: 24px; border: 2px solid rgba(79,158,251,0.5); }
+.vis-1 .ripple-2 { position: absolute; top: 42px; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; border-radius: 30px; border: 2px solid rgba(79,158,251,0.25); }
+.vis-2 { background: linear-gradient(135deg, #86efac, #c084fc); padding: 18px; display: flex; align-items: center; justify-content: center; }
+.vis-2 .mini-frame { width: 100%; height: 100%; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
+.vis-2 .mini-chrome { height: 22px; background: #F2F2F2; display: flex; align-items: center; padding: 0 10px; gap: 5px; }
+.vis-2 .dot-mini { width: 7px; height: 7px; border-radius: 50%; }
+.vis-2 .dot-mini.r { background: #FF5F56; }
+.vis-2 .dot-mini.y { background: #FFBD2E; }
+.vis-2 .dot-mini.g { background: #27C93F; }
+.vis-2 .mini-content { padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+.vis-2 .line { height: 8px; border-radius: 4px; background: #e2e8f0; }
+.vis-2 .line.s { width: 40%; background: #cbd5e1; height: 12px; }
+.vis-2 .line.l { width: 90%; }
+.vis-2 .line.m { width: 70%; }
+.vis-3 { background: #0f172a; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+.vis-3 .actions-row { display: flex; gap: 10px; align-items: center; justify-content: center; }
+.vis-3 .a-btn { background: rgba(255,255,255,0.08); color: #fff; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; border: 1px solid rgba(255,255,255,0.12); }
+.vis-3 .a-btn.primary { background: linear-gradient(135deg, #86efac, #c084fc); color: #0f172a; border: none; }
+.vis-3 .toast { background: #1e293b; color: #fff; padding: 9px 16px; border-radius: 9px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+.vis-3 .toast::before { content: '✓'; color: #22c55e; font-weight: 800; }
+.vis-3 .filename { font-family: ui-monospace, monospace; color: #94a3b8; font-size: 12px; background: rgba(255,255,255,0.04); padding: 6px 12px; border-radius: 6px; border: 1px dashed rgba(255,255,255,0.12); }
+.logo-wrap { position: absolute; top: 32px; left: 80px; display: flex; align-items: center; gap: 10px; }
+.logo-wrap img { width: 36px; height: 36px; border-radius: 9px; box-shadow: 0 6px 14px rgba(59,130,246,0.2); }
+.logo-wrap .n { font-weight: 800; font-size: 19px; color: #0f172a; letter-spacing: -0.5px; }
+</style></head>
+<body>
+  <div class="logo-wrap"><img src="icon.png"><span class="n">Framely</span></div>
+  <div class="headline">From screenshot to <em>shareable</em> in 3 clicks.</div>
+  <div class="sub">No editor. No design tools. Just click the extension and you're done.</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Click the icon</div>
+      <div class="step-sub">Anywhere, on any tab. Framely captures the visible page instantly.</div>
+      <div class="step-vis vis-1">
+        <div class="browser-bar"><div class="pill"></div></div>
+        <div class="ripple-2"></div>
+        <div class="ripple"></div>
+        <div class="icon-btn"><img src="icon.png"></div>
+        <div class="cursor"><svg viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="1.5"><path d="M3 2l7 18 2.5-7 7-2.5L3 2z"/></svg></div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Pick your vibe</div>
+      <div class="step-sub">Choose a gradient that matches the moment. Compare in real time.</div>
+      <div class="step-vis vis-2">
+        <div class="mini-frame">
+          <div class="mini-chrome"><div class="dot-mini r"></div><div class="dot-mini y"></div><div class="dot-mini g"></div></div>
+          <div class="mini-content"><div class="line s"></div><div class="line l"></div><div class="line m"></div><div class="line l"></div><div class="line m"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Copy or download</div>
+      <div class="step-sub">PNG to clipboard, ready to paste into Slack, X, or anywhere.</div>
+      <div class="step-vis vis-3">
+        <div class="actions-row"><div class="a-btn primary">Copy</div><div class="a-btn">Download</div></div>
+        <div class="toast">Copied to clipboard</div>
+        <div class="filename">framely-2026-05-01.png</div>
+      </div>
+    </div>
+  </div>
+</body></html>

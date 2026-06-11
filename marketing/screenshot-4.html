@@ -1,0 +1,101 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_shared.css">
+<style>
+body { width: 1280px; height: 800px; background: linear-gradient(135deg, #fef3f2 0%, #f0f9ff 100%); flex-direction: column; padding: 56px 80px; justify-content: flex-start; }
+.headline { font-size: 56px; font-weight: 800; letter-spacing: -1.5px; color: #0f172a; line-height: 1.05; max-width: 1100px; text-align: center; align-self: center; }
+.headline em { font-style: normal; background: linear-gradient(135deg, #6366f1, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sub { margin-top: 14px; font-size: 20px; color: #475569; max-width: 720px; line-height: 1.4; font-weight: 500; text-align: center; align-self: center; }
+.row { margin-top: 44px; align-self: center; display: flex; gap: 36px; align-items: flex-start; }
+/* X / Twitter post mockup */
+.tweet { width: 540px; background: #fff; border-radius: 16px; padding: 22px 24px; box-shadow: 0 16px 36px rgba(15,23,42,0.1); border: 1px solid #e2e8f0; }
+.tweet-head { display: flex; align-items: center; gap: 12px; }
+.tweet-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #ef4444); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 18px; }
+.tweet-name { font-size: 15px; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 4px; }
+.tweet-name svg { width: 16px; height: 16px; }
+.tweet-handle { font-size: 14px; color: #64748b; }
+.tweet-body { margin-top: 14px; font-size: 15px; color: #0f172a; line-height: 1.5; }
+.tweet-img { margin-top: 14px; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; padding: 18px; background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+.tweet-img .frame { width: 100%; height: 240px; }
+.tweet-img .mock-tweet-content { padding: 22px; height: 100%; display: flex; flex-direction: column; }
+.tt-h { font-size: 22px; font-weight: 800; color: #0f172a; letter-spacing: -0.4px; margin-bottom: 10px; }
+.tt-l { height: 9px; border-radius: 4px; background: #e2e8f0; margin-bottom: 8px; }
+.tt-l.l { width: 100%; }
+.tt-l.m { width: 75%; }
+.tt-l.s { width: 50%; }
+.tweet-meta { margin-top: 12px; font-size: 13px; color: #64748b; }
+.tweet-actions { margin-top: 14px; display: flex; gap: 36px; color: #64748b; font-size: 13px; padding-top: 12px; border-top: 1px solid #f1f5f9; }
+.tweet-actions span { display: inline-flex; align-items: center; gap: 6px; }
+/* blog post mockup */
+.blog { width: 480px; background: #fff; border-radius: 16px; box-shadow: 0 16px 36px rgba(15,23,42,0.1); border: 1px solid #e2e8f0; overflow: hidden; }
+.blog-cover { height: 220px; padding: 22px; background: linear-gradient(135deg, #2193b0, #6dd5ed); }
+.blog-cover .frame { width: 100%; height: 100%; }
+.blog-cover .bc-content { padding: 18px; height: 100%; display: flex; flex-direction: column; }
+.blog-body { padding: 22px 24px 24px; }
+.blog-tag { display: inline-block; font-size: 11px; font-weight: 700; color: #6366f1; letter-spacing: 0.6px; text-transform: uppercase; }
+.blog-title { margin-top: 10px; font-size: 22px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; line-height: 1.25; }
+.blog-excerpt { margin-top: 10px; font-size: 14px; color: #475569; line-height: 1.5; }
+.blog-meta { margin-top: 18px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: #64748b; }
+.blog-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #a855f7); }
+.tag-label { background: #fff; color: #fff; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; align-self: flex-start; }
+.b-bar { height: 8px; background: #e2e8f0; border-radius: 4px; margin-bottom: 6px; }
+.b-bar.s { width: 40%; }
+.b-bar.m { width: 70%; }
+.b-bar.l { width: 100%; }
+.logo-wrap { position: absolute; top: 32px; left: 80px; display: flex; align-items: center; gap: 10px; }
+.logo-wrap img { width: 36px; height: 36px; border-radius: 9px; box-shadow: 0 6px 14px rgba(59,130,246,0.2); }
+.logo-wrap .n { font-weight: 800; font-size: 19px; color: #0f172a; letter-spacing: -0.5px; }
+.platform { position: absolute; top: -12px; right: 24px; background: #0f172a; color: #fff; font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 8px; letter-spacing: 0.5px; }
+</style></head>
+<body>
+  <div class="logo-wrap"><img src="icon.png"><span class="n">Framely</span></div>
+  <div class="headline">Ready to share <em>anywhere</em>.</div>
+  <div class="sub">Drop straight into X, LinkedIn, blogs, decks, or docs. Looks great everywhere.</div>
+  <div class="row">
+    <div style="position: relative;">
+      <div class="platform">X / TWITTER</div>
+      <div class="tweet">
+        <div class="tweet-head">
+          <div class="tweet-avatar">A</div>
+          <div>
+            <div class="tweet-name">Alex Chen <svg viewBox="0 0 24 24" fill="#1d9bf0"><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"/></svg></div>
+            <div class="tweet-handle">@alexchen · 2h</div>
+          </div>
+        </div>
+        <div class="tweet-body">Just shipped our new pricing page. What do you think? 👀</div>
+        <div class="tweet-img">
+          <div class="frame">
+            <div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><div class="url"></div></div>
+            <div class="mock-tweet-content">
+              <div class="tt-h">Pricing that scales with you.</div>
+              <div class="tt-l l"></div><div class="tt-l m"></div><div class="tt-l l"></div><div class="tt-l s"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tweet-actions"><span>💬 24</span><span>🔁 142</span><span>♥ 1.2k</span><span>📊 18k</span></div>
+      </div>
+    </div>
+    <div style="position: relative;">
+      <div class="platform">BLOG / MEDIUM</div>
+      <div class="blog">
+        <div class="blog-cover">
+          <div class="frame">
+            <div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><div class="url"></div></div>
+            <div class="bc-content">
+              <div style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.3px;">Dashboard reimagined.</div>
+              <div class="b-bar s"></div><div class="b-bar l"></div><div class="b-bar m"></div>
+            </div>
+          </div>
+        </div>
+        <div class="blog-body">
+          <span class="blog-tag">Engineering</span>
+          <div class="blog-title">How we redesigned our analytics dashboard for speed</div>
+          <div class="blog-excerpt">A four-month story about cutting query times by 80% — and what we learned along the way.</div>
+          <div class="blog-meta">
+            <div class="blog-avatar"></div>
+            <span>Jordan Kim · 6 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body></html>

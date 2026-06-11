@@ -1,0 +1,34 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_shared.css">
+<style>
+body { width: 440px; height: 280px; background: linear-gradient(135deg, #86efac 0%, #c084fc 100%); padding: 0; }
+.card { width: 100%; height: 100%; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+.brand-row { display: flex; align-items: center; gap: 10px; }
+.brand-row img { width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 6px 14px rgba(0,0,0,0.18); }
+.brand-row .n { font-weight: 800; font-size: 22px; color: #0f172a; letter-spacing: -0.5px; }
+.title { font-size: 28px; font-weight: 800; color: #0f172a; line-height: 1.1; letter-spacing: -0.8px; }
+.title em { font-style: normal; background: linear-gradient(135deg, #1e293b 0%, #6366f1 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; }
+.cta-pill { background: #0f172a; color: #fff; padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 0.2px; }
+.mini-frame { background: #fff; border-radius: 8px; box-shadow: 0 12px 22px rgba(0,0,0,0.18); width: 130px; height: 80px; overflow: hidden; transform: rotate(-3deg); }
+.mini-frame .mc { height: 14px; background: #F2F2F2; display: flex; align-items: center; padding: 0 6px; gap: 3px; }
+.mini-frame .md { width: 5px; height: 5px; border-radius: 50%; }
+.mini-frame .md.r { background: #FF5F56; }
+.mini-frame .md.y { background: #FFBD2E; }
+.mini-frame .md.g { background: #27C93F; }
+.mini-frame .ml { padding: 8px 10px; }
+.mini-frame .ll { height: 5px; border-radius: 2px; background: #cbd5e1; margin-bottom: 4px; }
+.mini-frame .ll.s { width: 50%; }
+.mini-frame .ll.l { width: 100%; background: #e2e8f0; }
+.mini-frame .ll.m { width: 75%; background: #e2e8f0; }
+</style></head>
+<body>
+  <div class="card">
+    <div class="brand-row"><img src="icon.png"><span class="n">Framely</span></div>
+    <div class="title">Beautiful screenshots <em>in one click</em>.</div>
+    <div class="bottom">
+      <div class="cta-pill">Add to Chrome — Free</div>
+      <div class="mini-frame"><div class="mc"><div class="md r"></div><div class="md y"></div><div class="md g"></div></div><div class="ml"><div class="ll s"></div><div class="ll l"></div><div class="ll m"></div><div class="ll l"></div></div></div>
+    </div>
+  </div>
+</body></html>

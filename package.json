@@ -1,7 +1,7 @@
 {
   "name": "framely",
   "displayName": "Framely: Stylish Browser Frames",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Framely: Transform screenshots into professional mockups with browser frames. Perfect for product demos and social sharing.",
   "author": "FENG Zhichao",
   "scripts": {
@@ -16,7 +16,7 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
-    "html2canvas": "^1.4.1",
+    "modern-screenshot": "^4.7.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },

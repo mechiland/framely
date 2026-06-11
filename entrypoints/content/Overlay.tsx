@@ -1,4 +1,4 @@
-import html2canvas from "html2canvas"
+import { domToCanvas } from "modern-screenshot"
 import { useEffect, useRef, useState } from "react"
 
 import {
@@ -14,9 +14,9 @@ interface OverlayProps {
   onClose: () => void
 }
 
-// Inline gradients/solids using hex/rgb so html2canvas can parse them.
-// Tailwind v4 emits oklch() colors which html2canvas cannot read and would
-// render transparent — keep all preset values in hex/rgb form.
+// Background presets are kept as plain CSS gradients/solids; modern-screenshot
+// renders via SVG foreignObject so the browser parses colors natively, which
+// means modern color functions (oklch/lab/lch/color) all work too.
 interface BackgroundPreset {
   id: string
   name: string
@@ -217,9 +217,9 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
   }
 
   // Capture the screenshot-container with gradient background.
-  // html2canvas does not traverse Shadow DOM, so we temporarily clone the
-  // node into the light DOM along with the shadow root's <style> tags,
-  // capture it, then remove it.
+  // We clone the node into the light DOM along with the shadow root's <style>
+  // tags so the captured tree carries its own scoped styling, then remove the
+  // clone after capture.
   const captureCanvas = async (): Promise<HTMLCanvasElement | null> => {
     if (!showFrame) return captureRawScreenshotCanvas()
 
@@ -292,11 +292,12 @@ export default function Overlay({ screenshotUrl, onClose }: OverlayProps) {
     document.body.appendChild(wrapper)
 
     try {
-      const canvas = await html2canvas(clone, {
-        allowTaint: true,
-        useCORS: true,
-        logging: false,
-        scale: 2,
+      // captureVisibleTab() already returns at the device pixel ratio, and
+      // the clone is laid out at the screenshot's natural width — so we are
+      // already at 1:1 source resolution. A further scale > 1 would bloat
+      // the PNG without adding any real detail.
+      const canvas = await domToCanvas(clone, {
+        scale: 1,
         backgroundColor: null
       })
       return canvas

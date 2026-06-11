@@ -1,0 +1,48 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="_shared.css">
+<style>
+body { width: 1600px; height: 1000px; background: transparent; padding: 0; }
+.outer { width: 100%; height: 100%; padding: 90px; box-sizing: border-box; background: linear-gradient(135deg, #86efac 0%, #c084fc 100%); display: flex; align-items: center; justify-content: center; }
+.frame { width: 100%; height: 100%; max-width: 1340px; }
+.frame .chrome { height: 44px; padding: 0 22px; gap: 10px; }
+.frame .dot { width: 14px; height: 14px; }
+.frame .url { left: 200px; right: 200px; top: 10px; bottom: 10px; border-radius: 12px; }
+.mock { padding: 56px 64px; height: 100%; display: flex; flex-direction: column; }
+.nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 56px; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark { width: 36px; height: 36px; border-radius: 11px; background: linear-gradient(135deg, #6366f1, #a855f7); }
+.brand-name { font-weight: 700; font-size: 22px; color: #0f172a; letter-spacing: -0.3px; }
+.menu { display: flex; gap: 36px; font-size: 17px; color: #475569; font-weight: 500; }
+.cta { background: #0f172a; color: #fff; padding: 12px 22px; border-radius: 12px; font-size: 16px; font-weight: 600; }
+.h1 { font-size: 76px; font-weight: 800; line-height: 1; letter-spacing: -2px; color: #0f172a; max-width: 980px; }
+.h1 b { background: linear-gradient(135deg, #6366f1, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.h-sub { margin-top: 26px; font-size: 24px; color: #475569; max-width: 720px; line-height: 1.4; }
+.actions { margin-top: 40px; display: flex; gap: 16px; }
+.btn-p { background: #0f172a; color: #fff; padding: 16px 30px; border-radius: 14px; font-size: 17px; font-weight: 600; }
+.btn-s { background: #fff; color: #0f172a; padding: 16px 30px; border-radius: 14px; font-size: 17px; font-weight: 600; border: 1.5px solid #e2e8f0; }
+.stats { margin-top: auto; display: flex; gap: 80px; padding-top: 36px; border-top: 1px solid #e2e8f0; }
+.stat .v { font-size: 36px; font-weight: 800; color: #0f172a; letter-spacing: -1px; }
+.stat .l { font-size: 16px; color: #64748b; margin-top: 4px; }
+</style></head>
+<body>
+  <div class="outer">
+    <div class="frame">
+      <div class="chrome"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div><div class="url"></div></div>
+      <div class="mock">
+        <div class="nav">
+          <div class="brand"><div class="brand-mark"></div><div class="brand-name">Acme</div></div>
+          <div class="menu"><span>Product</span><span>Pricing</span><span>Customers</span><span>Docs</span></div>
+          <div class="cta">Get started</div>
+        </div>
+        <div class="h1">Ship faster with <b>delightful tools</b>.</div>
+        <div class="h-sub">The all-in-one workspace your team will love. Built for builders, designed for everyone.</div>
+        <div class="actions"><div class="btn-p">Start for free</div><div class="btn-s">Watch demo →</div></div>
+        <div class="stats">
+          <div class="stat"><div class="v">42M+</div><div class="l">Active users</div></div>
+          <div class="stat"><div class="v">99.99%</div><div class="l">Uptime</div></div>
+          <div class="stat"><div class="v">4.9★</div><div class="l">Customer rating</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body></html>
